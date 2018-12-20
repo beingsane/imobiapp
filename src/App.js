@@ -1,28 +1,24 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Admin, Resource } from 'react-admin'
+import { parseDataProvider } from './ra-data-parseserver'
+import imovel from './imovel'
+import inquilino from './inquilino'
+import contrato from './contrato'
+import parcela from './parcela'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+let parseConfig = {
+    "URL": process.env.REACT_APP_API_URL || "",
+    "APP-ID": process.env.REACT_APP_APP_ID || "",
+    "REST-API-KEY": process.env.REACT_APP_API_KEY || ""
 }
 
-export default App;
+const App = props => (
+    <Admin dataProvider={parseDataProvider(parseConfig)} title="Imobi">
+        <Resource name="Imovel" {...imovel} />
+        <Resource name="Inquilino" {...inquilino} />
+        <Resource name="Contrato" {...contrato} />
+        <Resource name="Parcela" {...parcela} />
+    </Admin>
+)
+
+export default App

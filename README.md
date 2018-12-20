@@ -1,5 +1,13 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Configuration
+
+Create a .env file with following variables
+
+	REACT_APP_API_URL=<URL do parse server>
+	REACT_APP_APP_ID=<Application ID>
+	REACT_APP_API_KEY=<REST API key>
+
 ## Available Scripts
 
 In the project directory, you can run:
