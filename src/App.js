@@ -5,6 +5,10 @@ import imovel from './imovel'
 import inquilino from './inquilino'
 import contrato from './contrato'
 import parcela from './parcela'
+import Dashboard from './dashboard';
+import ImovelIcon from '@material-ui/icons/Business';
+import InquilinoIcon from '@material-ui/icons/Group'
+import ContratoIcon from  '@material-ui/icons/Receipt'
 
 const parseConfig = {
     "URL": process.env.REACT_APP_API_URL || "",
@@ -17,9 +21,9 @@ const parseAuth = AuthProvider(parseConfig)
 
 const App = props => (
     <Admin dataProvider={parseData} authProvider={parseAuth} title="Imobi">
-        <Resource name="Imovel" {...imovel} />
-        <Resource name="Inquilino" {...inquilino} />
-        <Resource name="Contrato" {...contrato} />
+        <Resource name="Imovel" {...imovel} icon={ImovelIcon} />
+        <Resource name="Inquilino" {...inquilino} icon={InquilinoIcon} />
+        <Resource name="Contrato" {...contrato} icon={ContratoIcon} />
         <Resource name="Parcela" {...parcela} />
     </Admin>
 )
