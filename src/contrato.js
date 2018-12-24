@@ -6,6 +6,11 @@ import {
     ReferenceField, ReferenceManyField, ReferenceInput,
     SimpleShowLayout, Show
 } from 'react-admin'
+import { default as MuiList } from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ReciboButton from './recibo/button'
 
 const situacao = (r) => {
     if(r.pago) return "Pago"
@@ -71,6 +76,29 @@ export const edit = (props) => (
     </Edit>
 )
 
+const ParcelaList = ({ ids, data, basePath }) => (
+    <MuiList>
+        {ids.map(id => (
+            <ListItem key={id}>
+                <ListItemText primary={
+                    <div>
+                        <DateField source="vencimento" record={data[id]}/>
+                        <span style={{float: 'right', opacity: 0.541176}}>
+                            <FunctionField render={situacao} record={data[id]}/>
+                        </span>
+                    </div>
+                } secondary={
+                    <NumberField source="valor" options={{ style: 'currency', currency: 'BRL' }} record={data[id]}/>
+                }
+                />
+                <ListItemSecondaryAction>
+                  <ReciboButton record={data[id]}/>
+                </ListItemSecondaryAction>
+            </ListItem>
+        ))}
+    </MuiList>
+)
+
 export const show = (props) => (
     <Show {...props} title="Ver Contrato">
         <SimpleShowLayout>
@@ -86,11 +114,8 @@ export const show = (props) => (
             <ReferenceManyField label="Parcelas" reference="Parcela" target="contrato">
                 <Responsive
                     small={
-                        <SimpleList
-                            primaryText={r => r.vencimento}
-                            secondaryText={r => r.valor}
-                            tertiaryText={situacao}/>
-                        }
+                        <ParcelaList/>
+                    }
                     medium={
                         <Datagrid>
                             <DateField source="vencimento"/>
@@ -98,6 +123,7 @@ export const show = (props) => (
                             <FunctionField label="Situação" render={situacao}/>
                             <BooleanField source="pago"/>
                             <EditButton/>
+                            <ReciboButton/>
                         </Datagrid>
                     }
                 />
