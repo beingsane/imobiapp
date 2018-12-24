@@ -1,5 +1,6 @@
 import React from 'react'
 import { Admin, Resource } from 'react-admin'
+import portugueseMessages from 'ra-language-portuguese'
 import { DataProvider, AuthProvider } from './ra-data-parseserver'
 import imovel from './imovel'
 import inquilino from './inquilino'
@@ -20,7 +21,7 @@ const parseData = DataProvider(parseConfig)
 const parseAuth = AuthProvider(parseConfig)
 
 const App = props => (
-    <Admin dataProvider={parseData} authProvider={parseAuth} title="Imobi">
+    <Admin dataProvider={parseData} authProvider={parseAuth} i18nProvider={() => portugueseMessages} title="Imobi">
         <Resource name="Imovel" {...imovel} icon={ImovelIcon} />
         <Resource name="Inquilino" {...inquilino} icon={InquilinoIcon} />
         <Resource name="Contrato" {...contrato} icon={ContratoIcon} />
