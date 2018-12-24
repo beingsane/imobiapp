@@ -1,4 +1,4 @@
-import parseDataProvider from './dataProvider';
-import parseAuthProvider from './authProvider';
+import DataProvider from './dataProvider';
+import AuthProvider from './authProvider';
 
-export {parseDataProvider, parseAuthProvider}
+export {DataProvider, AuthProvider}
