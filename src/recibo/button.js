@@ -1,30 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
 import PrintIcon from '@material-ui/icons/Print'
-import { Responsive } from 'react-admin'
-import { connect } from 'react-redux'
-import { showNotification } from 'react-admin'
-import { push } from 'react-router-redux'
+import { Button } from 'react-admin'
 import { BlobProvider } from '@react-pdf/renderer'
 import Recibo from './pdf'
-
-const styles = theme => ({
-    button: {
-        margin: theme.spacing.unit,
-    },
-    leftIcon: {
-        marginRight: theme.spacing.unit,
-    },
-    rightIcon: {
-        marginLeft: theme.spacing.unit,
-    },
-    iconSmall: {
-        fontSize: 20,
-    },
-});
 
 const PDFonNewTab = (props) => {
     const document = props.document
@@ -52,30 +31,16 @@ class ReciboButton extends Component {
         return (
             <div>
                 <PDFonNewTab document={this.state.document} />
-                <Responsive
-                    small={
-                        <IconButton aria-label="Print" onClick={this.handleClick}>
-                            <PrintIcon />
-                        </IconButton>
-                    }
-                    medium={
-                        <Button onClick={this.handleClick} className={classes.button}>
-                            <PrintIcon className={classes.leftIcon} />
-                            Recibo
-                        </Button>
-                    }
-                />
+                <Button label="Recibo" onClick={this.handleClick}>
+                    <PrintIcon />
+                </Button>
             </div>
         )
     }
 }
 
 ReciboButton.propTypes = {
-    push: PropTypes.func,
     record: PropTypes.object,
-    showNotification: PropTypes.func,
-};
+}
 
-export default connect(null, {showNotification, push})(
-    withStyles(styles)(ReciboButton)
-)
+export default ReciboButton
