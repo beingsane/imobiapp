@@ -3,7 +3,7 @@ import {
     Datagrid, List, Responsive, SimpleList, TextField,  DateField,
     NumberField, BooleanField, FunctionField, ShowButton, EditButton,
     Create, Edit, SimpleForm, TextInput, SelectInput, DateInput, BooleanInput,
-    ReferenceField, ReferenceManyField, ReferenceInput,
+    NumberInput, ReferenceField, ReferenceManyField, ReferenceInput,
     SimpleShowLayout, Show
 } from 'react-admin'
 import { default as MuiList } from '@material-ui/core/List';
@@ -58,7 +58,9 @@ const form = (
             <SelectInput optionText="descricao"/>
         </ReferenceInput>
         <DateInput source="data_inicio" label="Data início"/>
-        <TextInput source="duracao" label="Duração (meses)"/>
+        <NumberInput source="duracao" label="Duração (meses)"/>
+        <NumberInput source="dia_vencimento" label="Dia do vencimento do aluguel"/>
+        <NumberInput source="valor_mensal" label="Valor mensal do aluguel"/>
     </SimpleForm>
 )
 
@@ -71,6 +73,8 @@ export const create = (props) => (
 export const edit = (props) => (
     <Edit {...props} title="Editar Contrato">
         <SimpleForm redirect="show">
+            <NumberInput source="dia_vencimento" label="Dia do vencimento do aluguel"/>
+            <NumberInput source="valor_mensal" label="Valor mensal do aluguel"/>
             <BooleanInput source="ativo"/>
         </SimpleForm>
     </Edit>
@@ -102,14 +106,16 @@ const ParcelaList = ({ ids, data, basePath }) => (
 export const show = (props) => (
     <Show {...props} title="Ver Contrato">
         <SimpleShowLayout>
-            <TextField source="numero"/>
+            <TextField source="id"/>
             <ReferenceField reference="Inquilino" source="inquilino" linkType={false}>
                 <TextField source="nome"/>
             </ReferenceField>
             <ReferenceField reference="Imovel" source="imovel" linkType={false}>
                 <TextField source="descricao"/>
             </ReferenceField>
-            <TextField source="duracao" label="Duração (meses)"/>
+            <NumberField source="duracao" label="Duração (meses)"/>
+            <NumberField source="dia_vencimento" label="Dia do vencimento do aluguel"/>
+            <NumberField source="valor_mensal" options={{ style: 'currency', currency: 'BRL' }} label="Valor mensal do aluguel"/>
             <BooleanField source="ativo"/>
             <ReferenceManyField label="Parcelas" reference="Parcela" target="contrato">
                 <Responsive

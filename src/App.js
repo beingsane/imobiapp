@@ -6,7 +6,6 @@ import imovel from './imovel'
 import inquilino from './inquilino'
 import contrato from './contrato'
 import parcela from './parcela'
-import Dashboard from './dashboard';
 import ImovelIcon from '@material-ui/icons/Business';
 import InquilinoIcon from '@material-ui/icons/Group'
 import ContratoIcon from  '@material-ui/icons/Receipt'

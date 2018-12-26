@@ -10,6 +10,26 @@ import {
 } from 'react-admin';
 
 export const FUNCTION = 'FUNCTION';
+export const CONFIG = 'CONFIG';
+
+function convertParseToPlain(obj) {
+    for(var key in obj) {
+        if(obj[key].__type === 'Date') {
+            obj[key] = new Date(obj[key].iso);
+        }
+    }
+    obj.id = obj.objectId;
+    return obj;
+}
+
+function convertPlainToParse(obj) {
+    for(let key in obj) {
+        if(obj[key] instanceof Date) {
+            obj[key] = {'__type': 'Date', 'iso': obj[key].toISOString()};
+        }
+    }
+    return obj;
+}
 
 function filterQuery(obj) {
     let result = {};
@@ -34,7 +54,7 @@ export default (parseConfig, httpClient = fetchJson) => {
     const convertRESTRequestToHTTP = (type, resource, params) => {
         let url = '';
 
-        const token = localStorage.getItem('parseToken')
+        const token = localStorage.getItem('parseToken');
         
         let options = {};
         options.headers = new Headers({ Accept: 'application/json' });
@@ -99,12 +119,12 @@ export default (parseConfig, httpClient = fetchJson) => {
             delete params.data.id;
             delete params.data.createdAt;
             delete params.data.updatedAt;
-            options.body = JSON.stringify(params.data);
+            options.body = JSON.stringify(convertPlainToParse(params.data));
             break;
         case CREATE:
             url = `${parseConfig.URL}/classes/${resource}`;
             options.method = 'POST';
-            options.body = JSON.stringify(params.data);
+            options.body = JSON.stringify(convertPlainToParse(params.data));
             break;
         case DELETE:
             url = `${parseConfig.URL}/classes/${resource}/${params.id}`;
@@ -134,8 +154,7 @@ export default (parseConfig, httpClient = fetchJson) => {
         case GET_LIST:
         case GET_MANY_REFERENCE:
             return {
-                data : json.results.map(x => ({...x, id: x.objectId})),
-                //data : json.results.map(convertRecord),
+                data : json.results.map(convertParseToPlain),
                 total: json.count,
             };
         case CREATE:
@@ -143,13 +162,11 @@ export default (parseConfig, httpClient = fetchJson) => {
         case UPDATE:
         case DELETE:
             return { 
-                data: { ...json, id: json.objectId },
-                //data: convertRecord(json),
+                data: convertParseToPlain(json),
             };          
         case GET_MANY:
             return {
-                data : json.results.map(x => ({...x, id: x.objectId})),
-                //data : json.results.map(convertRecord),
+                data : json.results.map(convertParseToPlain),
             };
         default:
             return json;
