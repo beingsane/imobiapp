@@ -14,7 +14,7 @@ import ReciboButton from './recibo/button'
 
 const situacao = (r) => {
     if(r.pago) return "Pago"
-    return (new Date(r.vencimento) < new Date()) ? "Vencido" : "Pendente"
+    return (new Date(r.vencimento).toDateString() < new Date().toDateString()) ? "Vencido" : "Pendente"
 }
 
 export const list = (props) => (
@@ -29,50 +29,53 @@ export const list = (props) => (
                 secondaryText={record => (
                     <ReferenceField label="Inquilino" source="inquilino" reference="Inquilino" basePath="inquilino" linkType={false} record={record}>
                         <TextField source="nome" />
-                    </ReferenceField>)}/>
+                    </ReferenceField>)}
+                tertiaryText={record => (<DateField label="Data" source="data" record={record}/>)}/>
             }
             medium={
                 <Datagrid>
-                    <TextField source="numero"/>
                     <ReferenceField reference="Inquilino" source="inquilino" linkType={false}>
                         <TextField source="nome"/>
                     </ReferenceField>
                     <ReferenceField reference="Imovel" source="imovel" linkType={false}>
                         <TextField source="descricao"/>
                     </ReferenceField>
+                    <DateField label="Data" source="data"/>
                     <TextField source="duracao" label="Duração"/>
                     <BooleanField source="ativo"/>
                     <ShowButton/>
+                    <EditButton/>
                 </Datagrid>
             }
         />
     </List>
 )
 
-const form = (
-    <SimpleForm redirect="show">
-        <ReferenceInput reference="Inquilino" source="inquilino">
-            <SelectInput optionText="nome"/>
-        </ReferenceInput>
-        <ReferenceInput reference="Imovel" source="imovel">
-            <SelectInput optionText="descricao"/>
-        </ReferenceInput>
-        <DateInput source="data_inicio" label="Data início"/>
-        <NumberInput source="duracao" label="Duração (meses)"/>
-        <NumberInput source="dia_vencimento" label="Dia do vencimento do aluguel"/>
-        <NumberInput source="valor_mensal" label="Valor mensal do aluguel"/>
-    </SimpleForm>
-)
 
 export const create = (props) => (
     <Create {...props} title="Novo Contrato">
-        {form}
+        <SimpleForm redirect="show" defaultValue={{
+            data: new Date(), duracao: 1, dia_vencimento: 1, ativo: true
+        }}>
+            <ReferenceInput reference="Inquilino" source="inquilino">
+                <SelectInput optionText="nome"/>
+            </ReferenceInput>
+            <ReferenceInput reference="Imovel" source="imovel">
+                <SelectInput optionText="descricao"/>
+            </ReferenceInput>
+            <DateInput source="data"/>
+            <NumberInput source="duracao" label="Duração (meses)"/>
+            <NumberInput source="dia_vencimento" label="Dia do vencimento do aluguel"/>
+            <NumberInput source="valor_mensal" label="Valor mensal do aluguel"/>
+        </SimpleForm>
     </Create>
 )
 
 export const edit = (props) => (
     <Edit {...props} title="Editar Contrato">
         <SimpleForm redirect="show">
+            <DateInput source="data"/>
+            <NumberInput source="duracao" label="Duração (meses)"/>
             <NumberInput source="dia_vencimento" label="Dia do vencimento do aluguel"/>
             <NumberInput source="valor_mensal" label="Valor mensal do aluguel"/>
             <BooleanInput source="ativo"/>
@@ -96,6 +99,7 @@ const ParcelaList = ({ ids, data, basePath }) => (
                 }
                 />
                 <ListItemSecondaryAction>
+                  <EditButton record={data[id]}/>
                   <ReciboButton record={data[id]}/>
                 </ListItemSecondaryAction>
             </ListItem>
@@ -113,6 +117,7 @@ export const show = (props) => (
             <ReferenceField reference="Imovel" source="imovel" linkType={false}>
                 <TextField source="descricao"/>
             </ReferenceField>
+            <DateField source="data"/>
             <NumberField source="duracao" label="Duração (meses)"/>
             <NumberField source="dia_vencimento" label="Dia do vencimento do aluguel"/>
             <NumberField source="valor_mensal" options={{ style: 'currency', currency: 'BRL' }} label="Valor mensal do aluguel"/>
