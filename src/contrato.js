@@ -1,11 +1,12 @@
 import React from 'react'
 import {
-    Datagrid, List, Responsive, SimpleList, TextField,  DateField,
+    Datagrid, List, Responsive, SimpleList, TextField,  DateField, Labeled,
     NumberField, BooleanField, FunctionField, ShowButton, EditButton, Filter,
     Create, Edit, SimpleForm, TextInput, SelectInput, DateInput, BooleanInput,
     NumberInput, ReferenceField, ReferenceManyField, ReferenceInput,
     SimpleShowLayout, Show, required, minValue, maxValue
 } from 'react-admin'
+import { withStyles } from '@material-ui/core/styles';
 import { default as MuiList } from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -62,16 +63,16 @@ export const create = (props) => (
         <SimpleForm redirect="show" defaultValue={{
             data: new Date(), dia_vencimento: 1, valor_mensal: 0.00, ativo: true
         }}>
-            <ReferenceInput reference="Inquilino" source="inquilino" validate={required()}>
+            <ReferenceInput reference="Inquilino" source="inquilino" validate={required()} fullWidth >
                 <SelectInput optionText="nome"/>
             </ReferenceInput>
-            <ReferenceInput reference="Imovel" source="imovel" validate={required()}>
+            <ReferenceInput reference="Imovel" source="imovel" validate={required()} fullWidth >
                 <SelectInput optionText="descricao"/>
             </ReferenceInput>
-            <DateInput source="data" validate={required()}/>
-            <NumberInput source="duracao" label="Duração (meses)" validate={[required(), minValue(1)]}/>
-            <NumberInput source="dia_vencimento" label="Dia do vencimento do aluguel" validate={[required(), minValue(1), maxValue(31)]}/>
-            <NumberInput source="valor_mensal" label="Valor mensal do aluguel" validate={[required(), minValue(0)]}/>
+            <DateInput source="data" validate={required()} fullWidth />
+            <NumberInput source="duracao" label="Duração (meses)" validate={[required(), minValue(1)]} fullWidth />
+            <NumberInput source="dia_vencimento" label="Dia do vencimento do aluguel" validate={[required(), minValue(1), maxValue(31)]} fullWidth />
+            <NumberInput source="valor_mensal" label="Valor mensal do aluguel" validate={[required(), minValue(0)]} fullWidth />
         </SimpleForm>
     </Create>
 )
@@ -79,28 +80,28 @@ export const create = (props) => (
 export const edit = (props) => (
     <Edit {...props} title="Editar Contrato">
         <SimpleForm redirect="show">
-            <DateInput source="data"/>
-            <NumberInput source="duracao" label="Duração (meses)"/>
-            <NumberInput source="dia_vencimento" label="Dia do vencimento do aluguel"/>
-            <NumberInput source="valor_mensal" label="Valor mensal do aluguel"/>
-            <BooleanInput source="ativo"/>
+            <DateInput source="data" fullWidth />
+            <NumberInput source="duracao" label="Duração (meses)" fullWidth />
+            <NumberInput source="dia_vencimento" label="Dia do vencimento do aluguel" fullWidth />
+            <NumberInput source="valor_mensal" label="Valor mensal do aluguel" fullWidth />
+            <BooleanInput source="ativo" fullWidth />
         </SimpleForm>
     </Edit>
 )
 
-const ParcelaList = ({ ids, data, basePath }) => (
-    <MuiList>
+const ParcelaList = ({ ids, data, basePath, styles }) => (
+    <MuiList style={{display: 'block'}}>
         {ids.map(id => (
             <ListItem key={id}>
                 <ListItemText primary={
                     <div>
                         <DateField source="vencimento" record={data[id]}/>
-                        <span style={{float: 'right', opacity: 0.541176}}>
-                            <FunctionField render={situacao} record={data[id]}/>
-                        </span>
                     </div>
                 } secondary={
-                    <NumberField source="valor" options={{ style: 'currency', currency: 'BRL' }} record={data[id]}/>
+                    <div>
+                        <NumberField source="valor" options={{ style: 'currency', currency: 'BRL' }} record={data[id]}/>
+                        <FunctionField render={situacao} record={data[id]}/>
+                    </div>
                 }
                 />
                 <ListItemSecondaryAction>
@@ -127,7 +128,8 @@ export const show = (props) => (
             <NumberField source="dia_vencimento" label="Dia do vencimento do aluguel"/>
             <NumberField source="valor_mensal" options={{ style: 'currency', currency: 'BRL' }} label="Valor mensal do aluguel"/>
             <BooleanField source="ativo"/>
-            <ReferenceManyField label="Parcelas" reference="Parcela" target="contrato">
+            <ReferenceManyField addLabel={false} reference="Parcela" target="contrato" style={{ width: '99%' }}>
+                <Labeled fullWidth label="Parcelas">
                 <Responsive
                     small={
                         <ParcelaList/>
@@ -143,6 +145,7 @@ export const show = (props) => (
                         </Datagrid>
                     }
                 />
+                </Labeled>
             </ReferenceManyField>
         </SimpleShowLayout>
     </Show>

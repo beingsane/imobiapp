@@ -45,12 +45,12 @@ export const list = (props) => (
 
 const form = (
     <SimpleForm redirect="list">
-        <TextInput source="descricao" label="Descrição" validate={[required(), minLength(3)]}/>
-        <TextInput source="logradouro" validate={[required(), minLength(3)]}/>
-        <TextInput source="numero" validate={[required()]}/>
-        <TextInput source="bairro" validate={[required(), minLength(3)]}/>
-        <TextInput source="municipio" validate={[required(), minLength(3)]}/>
-        <TextInput source="uf" label="UF" validate={[required(), minLength(2)]}/>
+        <TextInput source="descricao" label="Descrição" validate={[required(), minLength(3)]} fullWidth />
+        <TextInput source="logradouro" validate={[required(), minLength(3)]} fullWidth />
+        <TextInput source="numero" validate={[required()]} fullWidth />
+        <TextInput source="bairro" validate={[required(), minLength(3)]} fullWidth />
+        <TextInput source="municipio" validate={[required(), minLength(3)]} fullWidth />
+        <TextInput source="uf" label="UF" validate={[required(), minLength(2)]} fullWidth />
     </SimpleForm>
 )
 
