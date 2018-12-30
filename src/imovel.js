@@ -1,12 +1,21 @@
 import React from 'react'
 import {
-    Datagrid, List, Responsive, SimpleList, TextField,
+    Datagrid, List, Responsive, SimpleList, TextField, Filter,
     Create, Edit, SimpleForm, TextInput, EditButton,
     required, minLength
 } from 'react-admin'
 
+const ListFilter = (props) => (
+    <Filter {...props}>
+        <TextInput label="Pesquisar Descrição" source="descricao" alwaysOn />
+        <TextInput source="logradouro"/>
+        <TextInput source="bairro"/>
+        <TextInput source="municipio"/>
+    </Filter>
+)
+
 export const list = (props) => (
-    <List {...props} title="Imóveis">
+    <List {...props} title="Imóveis" filters={<ListFilter/>}>
         <Responsive
             small={
                 <SimpleList

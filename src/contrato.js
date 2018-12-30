@@ -1,8 +1,8 @@
 import React from 'react'
 import {
     Datagrid, List, Responsive, SimpleList, TextField,  DateField,
-    NumberField, BooleanField, FunctionField, ShowButton, EditButton,
-    Create, Edit, SimpleForm, SelectInput, DateInput, BooleanInput,
+    NumberField, BooleanField, FunctionField, ShowButton, EditButton, Filter,
+    Create, Edit, SimpleForm, TextInput, SelectInput, DateInput, BooleanInput,
     NumberInput, ReferenceField, ReferenceManyField, ReferenceInput,
     SimpleShowLayout, Show, required, minValue, maxValue
 } from 'react-admin'
@@ -17,8 +17,14 @@ const situacao = (r) => {
     return (new Date(r.vencimento).toDateString() < new Date().toDateString()) ? "Vencido" : "Pendente"
 }
 
+const ListFilter = (props) => (
+    <Filter {...props}>
+        <BooleanInput source="ativo" />
+    </Filter>
+)
+
 export const list = (props) => (
-    <List {...props} title="Contratos">
+    <List {...props} title="Contratos" filters={<ListFilter/>} defaultValues={{ativo: true}}>
         <Responsive
             small={
                 <SimpleList linkType="show"
