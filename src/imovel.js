@@ -1,7 +1,8 @@
 import React from 'react'
 import {
     Datagrid, List, Responsive, SimpleList, TextField,
-    Create, Edit, SimpleForm, TextInput, EditButton
+    Create, Edit, SimpleForm, TextInput, EditButton,
+    required, minLength
 } from 'react-admin'
 
 export const list = (props) => (
@@ -35,12 +36,12 @@ export const list = (props) => (
 
 const form = (
     <SimpleForm redirect="list">
-        <TextInput source="descricao" label="Descrição"/>
-        <TextInput source="logradouro"/>
-        <TextInput source="numero"/>
-        <TextInput source="bairro"/>
-        <TextInput source="municipio"/>
-        <TextInput source="uf" label="UF"/>
+        <TextInput source="descricao" label="Descrição" validate={[required(), minLength(3)]}/>
+        <TextInput source="logradouro" validate={[required(), minLength(3)]}/>
+        <TextInput source="numero" validate={[required()]}/>
+        <TextInput source="bairro" validate={[required(), minLength(3)]}/>
+        <TextInput source="municipio" validate={[required(), minLength(3)]}/>
+        <TextInput source="uf" label="UF" validate={[required(), minLength(2)]}/>
     </SimpleForm>
 )
 

@@ -27,7 +27,6 @@ class ReciboButton extends Component {
         this.setState({document: Recibo(this.props.record)})
     }
     render() {
-        const { classes } = this.props
         return (
             <div>
                 <PDFonNewTab document={this.state.document} />

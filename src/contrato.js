@@ -2,9 +2,9 @@ import React from 'react'
 import {
     Datagrid, List, Responsive, SimpleList, TextField,  DateField,
     NumberField, BooleanField, FunctionField, ShowButton, EditButton,
-    Create, Edit, SimpleForm, TextInput, SelectInput, DateInput, BooleanInput,
+    Create, Edit, SimpleForm, SelectInput, DateInput, BooleanInput,
     NumberInput, ReferenceField, ReferenceManyField, ReferenceInput,
-    SimpleShowLayout, Show
+    SimpleShowLayout, Show, required, minValue, maxValue
 } from 'react-admin'
 import { default as MuiList } from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -51,22 +51,21 @@ export const list = (props) => (
     </List>
 )
 
-
 export const create = (props) => (
     <Create {...props} title="Novo Contrato">
         <SimpleForm redirect="show" defaultValue={{
-            data: new Date(), duracao: 1, dia_vencimento: 1, ativo: true
+            data: new Date(), dia_vencimento: 1, valor_mensal: 0.00, ativo: true
         }}>
-            <ReferenceInput reference="Inquilino" source="inquilino">
+            <ReferenceInput reference="Inquilino" source="inquilino" validate={required()}>
                 <SelectInput optionText="nome"/>
             </ReferenceInput>
-            <ReferenceInput reference="Imovel" source="imovel">
+            <ReferenceInput reference="Imovel" source="imovel" validate={required()}>
                 <SelectInput optionText="descricao"/>
             </ReferenceInput>
-            <DateInput source="data"/>
-            <NumberInput source="duracao" label="Duração (meses)"/>
-            <NumberInput source="dia_vencimento" label="Dia do vencimento do aluguel"/>
-            <NumberInput source="valor_mensal" label="Valor mensal do aluguel"/>
+            <DateInput source="data" validate={required()}/>
+            <NumberInput source="duracao" label="Duração (meses)" validate={[required(), minValue(1)]}/>
+            <NumberInput source="dia_vencimento" label="Dia do vencimento do aluguel" validate={[required(), minValue(1), maxValue(31)]}/>
+            <NumberInput source="valor_mensal" label="Valor mensal do aluguel" validate={[required(), minValue(0)]}/>
         </SimpleForm>
     </Create>
 )
