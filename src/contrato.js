@@ -1,16 +1,15 @@
 import React from 'react'
 import {
-    Datagrid, List, Responsive, SimpleList, TextField,  DateField, Labeled,
+    Datagrid, List, Responsive, SimpleList, TextField, DateField, Labeled,
     NumberField, BooleanField, FunctionField, ShowButton, EditButton, Filter,
-    Create, Edit, SimpleForm, TextInput, SelectInput, DateInput, BooleanInput,
+    Create, Edit, SimpleForm, SelectInput, DateInput, BooleanInput,
     NumberInput, ReferenceField, ReferenceManyField, ReferenceInput,
     SimpleShowLayout, Show, required, minValue, maxValue
 } from 'react-admin'
-import { withStyles } from '@material-ui/core/styles';
-import { default as MuiList } from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import { default as MuiList } from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ReciboButton from './recibo/button'
 
 const situacao = (r) => {

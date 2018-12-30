@@ -9,7 +9,7 @@ import parcela from './parcela'
 import ImovelIcon from '@material-ui/icons/Business'
 import InquilinoIcon from '@material-ui/icons/Group'
 import ContratoIcon from  '@material-ui/icons/Receipt'
-import appTheme from './apptheme'
+import theme from './theme'
 
 const parseConfig = {
     "URL": process.env.REACT_APP_API_URL || "",
@@ -21,7 +21,7 @@ const parseData = DataProvider(parseConfig)
 const parseAuth = AuthProvider(parseConfig)
 
 const App = props => (
-    <Admin theme={appTheme} dataProvider={parseData} authProvider={parseAuth} i18nProvider={() => portugueseMessages} title="Imobi">
+    <Admin theme={theme} dataProvider={parseData} authProvider={parseAuth} i18nProvider={() => portugueseMessages} title="Imobi">
         <Resource name="Imovel" {...imovel} icon={ImovelIcon} />
         <Resource name="Inquilino" {...inquilino} icon={InquilinoIcon} />
         <Resource name="Contrato" {...contrato} icon={ContratoIcon} />
