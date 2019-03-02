@@ -1,4 +1,5 @@
 import React from 'react';
+import extenso from 'extenso';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
 // Create styles
@@ -28,6 +29,8 @@ const styles = StyleSheet.create({
 })
 
 const Recibo = (item) => {
+    let { inquilino, imovel, parcela } = item
+    let valor_extenso = extenso(parcela.valor, {mode: 'currency'})
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -36,12 +39,15 @@ const Recibo = (item) => {
                 </Text>
                 <View>
                 <Text style={styles.text}>
-                    Recebi d senhora Maria Lozangela a importância de {item.valor} 
-                    (quatrocentos Reais) referente ao aluguel da casa situada Rua
-                    Elizier Joca Feitosa, 110 no Bairro Chico Cajá, Pau dos Ferros RN.
+                    Recebi de {inquilino.nome}, CPF {inquilino.cpf}, a importância de{` `}
+                    R$ {parcela.valor} ({valor_extenso}) referente ao aluguel da casa{` `}
+                    situada a {imovel.logradouro}, {imovel.numero} no Bairro {imovel.bairro}
+                    , {imovel.municipio} {imovel.uf}.
                 </Text>
                 <Text style={styles.footer}>
-                    Pau dos Ferros 10/02/2018
+                    Pau dos Ferros, {(new Date()).toLocaleDateString('pt-BR', {
+                        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                    })}
                 </Text>
                 </View>
                 <View style={styles.signature}>
